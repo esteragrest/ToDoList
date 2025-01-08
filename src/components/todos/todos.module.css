@@ -1,0 +1,67 @@
+.todos {
+	gap: 4px;
+	width: 100%;
+	height: 300px;
+	overflow-y: scroll;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	flex-direction: column;
+}
+
+.todos::-webkit-scrollbar {
+	display: none;
+}
+
+.todo {
+	box-sizing: border-box;
+	background-color: #f3feff;
+	width: 90%;
+	height: 50px;
+	border-radius: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: row;
+	color: #00322c;
+	font-weight: bold;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	text-align: left;
+	padding: 12px;
+	transition: transform 0.5s ease;
+}
+
+.todo a {
+	height: 80%;
+}
+
+.todo:hover {
+	border: 1.5px solid #baf8ff;
+}
+
+.buttons {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	gap: 6px;
+}
+
+.buttons button {
+	background-color: transparent;
+	border: none;
+}
+
+.buttons button:hover {
+	transform: scale(1.07);
+}
+
+.title {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	display: flex;
+	width: 100%;
+	justify-content: start;
+	align-items: center;
+}

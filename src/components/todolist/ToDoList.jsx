@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useRequestAddNewTodo } from '../../hooks';
 import { ToDos } from '../todos/Todos';
 import { Todoform } from '../todoform/Todoform';
 import { SearchForm } from '../searchform/Searchform';
 import PropTypes from 'prop-types';
 
-export const ToDoList = ({ todos, requestAddNewTodo, isCreating }) => {
+export const ToDoList = ({ todos, refreshTodos }) => {
 	const [todoValue, setTodoValue] = useState('');
 	const [isSorted, setIsSorted] = useState(false);
 	const [searchValue, setSearchValue] = useState('');
@@ -12,6 +13,8 @@ export const ToDoList = ({ todos, requestAddNewTodo, isCreating }) => {
 	const toggleSorted = () => {
 		setIsSorted(!isSorted);
 	};
+
+	const [requestAddNewTodo, isCreating] = useRequestAddNewTodo(refreshTodos);
 
 	const sortedTodos = isSorted
 		? [...todos].sort((a, b) => a.title.localeCompare(b.title))
@@ -38,6 +41,5 @@ export const ToDoList = ({ todos, requestAddNewTodo, isCreating }) => {
 
 ToDoList.propTypes = {
 	todos: PropTypes.array,
-	requestAddNewTodo: PropTypes.func,
-	isCreating: PropTypes.bool,
+	refreshTodos: PropTypes.func,
 };

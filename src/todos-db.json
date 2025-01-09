@@ -1,34 +1,3 @@
 {
-  "todos": [
-    {
-      "id": "9152",
-      "title": "asdfghjk",
-      "completed": true
-    },
-    {
-      "id": "8124",
-      "title": "sdfghjk",
-      "completed": false
-    },
-    {
-      "id": "1dea",
-      "title": "sdfghjio",
-      "completed": false
-    },
-    {
-      "id": "6445",
-      "title": "Закончить задание на курсы",
-      "completed": true
-    },
-    {
-      "id": "6be7",
-      "title": "dfghjk",
-      "completed": false
-    },
-    {
-      "id": "c06a",
-      "title": "dfghj",
-      "completed": false
-    }
-  ]
+	"todos": []
 }

@@ -1,0 +1,50 @@
+.buttons {
+	display: flex;
+	align-items: center;
+	justify-content: start;
+	flex-direction: column;
+	width: 30%;
+	height: auto;
+	gap: 10px;
+}
+
+.buttons button {
+	border: none;
+	padding: 15px;
+	font-size: 16px;
+	border-radius: 30px;
+	margin: 0;
+	cursor: pointer;
+	color: white;
+	transition:
+		background-color 0.3s,
+		transform 0.2s;
+	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.completed {
+	background: linear-gradient(135deg, #69adff, #499bff);
+}
+
+.completed:hover {
+	background: linear-gradient(135deg, #499bff, #69adff);
+	transform: translateY(-2px);
+}
+
+.edit {
+	background: linear-gradient(135deg, #4caf50, #45a049);
+}
+
+.edit:hover {
+	background: linear-gradient(135deg, #45a049, #4caf50);
+	transform: translateY(-2px);
+}
+
+.delete {
+	background: linear-gradient(135deg, #af4c4c, #ab4545);
+}
+
+.delete:hover {
+	background: linear-gradient(135deg, #ab4545, #af4c4c);
+	transform: translateY(-2px);
+}

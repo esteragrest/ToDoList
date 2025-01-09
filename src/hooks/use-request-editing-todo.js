@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export const useRequestEditingTodo = (refreshTodos, setEditingTodoId) => {
+export const useRequestEditingTodo = (refreshTodos) => {
 	const [isUpdatingTitle, setIsUpdatingTitle] = useState(false);
 	const requestEditTodo = (id, updatingTodo) => {
 		setIsUpdatingTitle(true);
@@ -13,7 +13,6 @@ export const useRequestEditingTodo = (refreshTodos, setEditingTodoId) => {
 			.then((rawResponse) => rawResponse.json())
 			.then((response) => {
 				console.log('Дело обновлено, ответ сервера: ', response);
-				setEditingTodoId(null);
 				refreshTodos();
 			})
 			.finally(() => setIsUpdatingTitle(false));

@@ -1,6 +1,6 @@
 import styles from './todotask.module.css';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
 	useRequestCompletedTodo,
 	useRequestDeletetodo,
@@ -12,6 +12,7 @@ import { ToDoTaskButtons } from '../todotaskbuttons/ToDoTaskButtons';
 export const ToDoTask = ({ todos, refreshTodos }) => {
 	const { id } = useParams();
 	const todo = todos.find((todo) => todo.id === id);
+	const navigate = useNavigate();
 	const [newTitle, setNewTitle] = useState(todo.title);
 	const [editing, setEditing] = useState(false);
 
@@ -31,6 +32,9 @@ export const ToDoTask = ({ todos, refreshTodos }) => {
 	};
 	return (
 		<div className={styles.taskContainer}>
+			<button onClick={() => navigate(-1)} className={styles.back}>
+				<img src="../../../img/back-icon.png" alt="back button" />
+			</button>
 			<div className={styles.taskInfo}>
 				<h2>{todo.title}</h2>
 				<p>Статус: {todo.completed ? 'Выполнено' : 'Не выполнено'}</p>

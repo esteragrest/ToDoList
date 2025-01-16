@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 export const useRequestDeletetodo = (refreshTodos) => {
 	const [isDelete, setIsDelete] = useState(false);
-	const navigate = useNavigate();
 	const requestDeleteTodo = (id) => {
 		setIsDelete(true);
 
@@ -14,7 +12,6 @@ export const useRequestDeletetodo = (refreshTodos) => {
 			.then((response) => {
 				console.log('Дело удалено, ответ сервера: ', response);
 				refreshTodos();
-				navigate('/');
 			})
 			.finally(() => setIsDelete(false));
 	};

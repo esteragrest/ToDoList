@@ -1,40 +1,83 @@
+import {
+	useRequestGetTodos,
+	useRequestAddNewTodo,
+	useRequestEditingTodo,
+	useRequestDeletetodo,
+	useRequestCompletedTodo,
+} from './hooks';
 import styles from './app.module.css';
-import { useRequestGetTodos } from './hooks';
 import { useState } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { ToDoList } from './components/todolist/ToDoList';
-import { ToDoTask } from './components/todotask/ToDoTask';
-import { NotFound } from './components/notfound/NotFound';
+import { Todolist } from './components/todos/Todolist';
+import { Todoform } from './components/todoform/Todoform';
+import { SearchForm } from './components/searchform/Searchform';
 
 export const App = () => {
+	const [todoValue, setTodoValue] = useState('');
+	const [editingTodoId, setEditingTodoId] = useState(null);
 	const [refreshTodosFlag, setRefreshTodosFlag] = useState(false);
+	const [isSorted, setIsSorted] = useState(false);
+	const [searchValue, setSearchValue] = useState('');
 
 	const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag);
+	const toggleSorted = () => {
+		setIsSorted(!isSorted);
+	};
 
 	const [todos, isLoading] = useRequestGetTodos(refreshTodosFlag);
+	const [requestAddNewTodo, isCreating] = useRequestAddNewTodo(refreshTodos);
+	const [requestEditTodo, isUpdatingTitle] = useRequestEditingTodo(
+		refreshTodos,
+		setEditingTodoId,
+	);
+	const [requestDeleteTodo, isDelete] = useRequestDeletetodo(refreshTodos);
+	const [requestCompletedTodo, isUpdatingCompleted] = useRequestCompletedTodo(
+		todos,
+		refreshTodos,
+		setEditingTodoId,
+	);
 
+	const handleEditTodo = (id) => {
+		const todoToEdit = todos.find((todo) => todo.id === id);
+		setTodoValue(todoToEdit.title);
+		setEditingTodoId(id);
+	};
+
+	const sortedTodos = isSorted
+		? [...todos].sort((a, b) => a.title.localeCompare(b.title))
+		: todos;
+
+	const filteredTodos = sortedTodos.filter((todo) =>
+		todo.title.toLowerCase().includes(searchValue),
+	);
 	return (
 		<div className={styles.app}>
 			<div className={styles['to-do-list-container']}>
 				{isLoading ? (
 					<div className="loader">Loading...</div>
 				) : (
-					<Routes>
-						<Route
-							path="/"
-							element={
-								<ToDoList todos={todos} refreshTodos={refreshTodos} />
-							}
+					<>
+						<Todoform
+							value={todoValue}
+							onChange={setTodoValue}
+							requestAddNewTodo={requestAddNewTodo}
+							editingTodoId={editingTodoId}
+							requestEditTodo={requestEditTodo}
+							isSorted={isSorted}
+							toggleSorted={toggleSorted}
+							isCreating={isCreating}
+							isUpdatingTitle={isUpdatingTitle}
 						/>
-						<Route
-							path="/task/:id"
-							element={
-								<ToDoTask todos={todos} refreshTodos={refreshTodos} />
-							}
+						<SearchForm value={searchValue} setSearchValue={setSearchValue} />
+						<Todolist
+							todos={filteredTodos}
+							onDelete={requestDeleteTodo}
+							onEdit={handleEditTodo}
+							onToggle={requestCompletedTodo}
+							isUpdatingTitle={isUpdatingTitle}
+							isUpdatingCompleted={isUpdatingCompleted}
+							isDelete={isDelete}
 						/>
-						<Route path="/404" element={<NotFound />} />
-						<Route path="*" element={<Navigate to="/404" />} />
-					</Routes>
+					</>
 				)}
 			</div>
 		</div>

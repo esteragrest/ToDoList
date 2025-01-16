@@ -15,13 +15,13 @@
 
 .todo {
 	background-color: #f3feff;
-	width: 90%;
-	height: 50px;
 	border-radius: 5px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: start;
 	align-items: center;
 	flex-direction: row;
+	width: 90%;
+	height: 50px;
 	color: #00322c;
 	font-weight: bold;
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -32,21 +32,4 @@
 
 .todo:hover {
 	border: 1.5px solid #baf8ff;
-}
-
-.buttons {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: row;
-	gap: 6px;
-}
-
-.buttons button {
-	background-color: transparent;
-	border: none;
-}
-
-.buttons button:hover {
-	transform: scale(1.07);
 }

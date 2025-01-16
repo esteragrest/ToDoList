@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import styles from './searchform.module.css';
-import PropTypes from 'prop-types';
+import { FilteredTodosContext } from '../../context';
 
-export const SearchForm = ({ searchValue, setSearchValue }) => {
+export const SearchForm = () => {
+	const { searchValue, setSearchValue } = useContext(FilteredTodosContext);
+
 	return (
 		<>
 			<form
@@ -21,9 +24,4 @@ export const SearchForm = ({ searchValue, setSearchValue }) => {
 			</form>
 		</>
 	);
-};
-
-SearchForm.propTypes = {
-	searchValue: PropTypes.string,
-	setSearchValue: PropTypes.func,
 };

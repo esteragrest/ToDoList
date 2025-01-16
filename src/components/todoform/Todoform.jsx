@@ -1,25 +1,20 @@
 import styles from './todoform.module.css';
-import PropTypes from 'prop-types';
+import { useContext, useState } from 'react';
+import { useRequestAddNewTodo } from '../../hooks';
+import { SortedTodosContext, TodosContext } from '../../context';
 
-export const Todoform = ({
-	value,
-	onChange,
-	requestAddNewTodo,
-	editingTodoId,
-	requestEditTodo,
-	isSorted,
-	toggleSorted,
-	isCreating,
-	isUpdatingTitle,
-}) => {
+export const Todoform = () => {
+	const [todoValue, setTodoValue] = useState('');
+	const { refreshTodos } = useContext(TodosContext);
+	const { isSorted, setIsSorted } = useContext(SortedTodosContext);
+
+	const [requestAddNewTodo, isCreating] = useRequestAddNewTodo(refreshTodos);
+
 	const handleOnSubmit = (event) => {
 		event.preventDefault();
-		if (editingTodoId) {
-			requestEditTodo(editingTodoId, { title: value, completed: false });
-			onChange('');
-		} else if (value) {
-			requestAddNewTodo({ title: value, completed: false });
-			onChange('');
+		if (todoValue) {
+			requestAddNewTodo({ title: todoValue, completed: false });
+			setTodoValue('');
 		}
 	};
 
@@ -31,20 +26,17 @@ export const Todoform = ({
 					type="text"
 					name="todo"
 					id="todo"
-					value={value}
-					onChange={({ target }) => onChange(target.value)}
+					value={todoValue}
+					onChange={({ target }) => setTodoValue(target.value)}
 					placeholder="Заполнить список дел..."
 				/>
 				<div className={styles.buttonContainer}>
-					<button
-						className={styles.newtodo}
-						disabled={isCreating && isUpdatingTitle}
-					>
-						{editingTodoId ? 'Обновить запись' : 'Записать'}
+					<button className={styles.newtodo} disabled={isCreating}>
+						Записать
 					</button>
 					<button
 						className={isSorted ? styles.sortButtonOff : styles.sortButtonOn}
-						onClick={toggleSorted}
+						onClick={() => setIsSorted(!isSorted)}
 					>
 						Дела по алфавиту
 					</button>
@@ -52,16 +44,4 @@ export const Todoform = ({
 			</form>
 		</>
 	);
-};
-
-Todoform.propTypes = {
-	value: PropTypes.string,
-	onChange: PropTypes.func,
-	requestAddNewTodo: PropTypes.func,
-	editingTodoId: PropTypes.string,
-	requestEditTodo: PropTypes.func,
-	isSorted: PropTypes.bool,
-	toggleSorted: PropTypes.func,
-	isCreating: PropTypes.bool,
-	isUpdatingTitle: PropTypes.bool,
 };

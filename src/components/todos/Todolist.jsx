@@ -1,54 +1,29 @@
 import styles from './todolist.module.css';
-import PropTypes from 'prop-types';
+import { ToDo } from '../todo/ToDo';
+import { useContext } from 'react';
+import { FilteredTodosContext, SortedTodosContext, TodosContext } from '../../context';
 
-export const Todolist = ({
-	todos,
-	onDelete,
-	onEdit,
-	onToggle,
-	isUpdatingTitle,
-	isUpdatingCompleted,
-	isDelete,
-}) => {
+export const Todolist = () => {
+	const { todos } = useContext(TodosContext);
+	const { isSorted } = useContext(SortedTodosContext);
+	const { searchValue } = useContext(FilteredTodosContext);
+
+	const sortedTodos = isSorted
+		? [...todos].sort((a, b) => a.title.localeCompare(b.title))
+		: todos;
+
+	const filteredTodos = sortedTodos.filter((todo) =>
+		todo.title.toLowerCase().includes(searchValue),
+	);
 	return (
 		<div className={styles.todos}>
-			{todos.map(({ id, title, completed }) => {
+			{filteredTodos.map(({ id, title, completed }) => {
 				return (
 					<div className={styles.todo} key={id}>
-						<p
-							style={{
-								textDecoration: completed ? 'line-through' : 'none',
-							}}
-						>
-							{title}
-						</p>
-						<div className={styles.buttons}>
-							<button
-								onClick={() => onToggle(id)}
-								disabled={isUpdatingCompleted}
-							>
-								<img src="../../../img/completed-icon.png" />
-							</button>
-							<button onClick={() => onEdit(id)} disabled={isUpdatingTitle}>
-								<img src="../../../img/edit-icon.png" />
-							</button>
-							<button onClick={() => onDelete(id)} disabled={isDelete}>
-								<img src="../../../img/delete-icon.png" />
-							</button>
-						</div>
+						<ToDo id={id} title={title} completed={completed} />
 					</div>
 				);
 			})}
 		</div>
 	);
-};
-
-Todolist.propTypes = {
-	todos: PropTypes.array,
-	onDelete: PropTypes.func,
-	onEdit: PropTypes.func,
-	onToggle: PropTypes.func,
-	isUpdatingTitle: PropTypes.bool,
-	isUpdatingCompleted: PropTypes.bool,
-	isDelete: PropTypes.bool,
 };

@@ -1,31 +1,30 @@
 import styles from './todo.module.css';
-import {
-	useRequestEditingTodo,
-	useRequestCompletedTodo,
-	useRequestDeletetodo,
-} from '../../hooks';
-import { useContext, useState } from 'react';
-import { TodosContext } from '../../context';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectToDos } from '../../selectors';
+import { updateTitleToDoAsync, removeToDoAsync, completedToDoAsync } from '../../actions';
 
 export const ToDo = ({ id, title, completed }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newTitle, setNewTitle] = useState(title);
-	const { todos, refreshTodos } = useContext(TodosContext);
-
-	const [requestEditTodo, isUpdatingTitle] = useRequestEditingTodo(refreshTodos);
-	const [requestCompletedTodo, isUpdatingCompleted] = useRequestCompletedTodo(
-		todos,
-		refreshTodos,
-	);
-	const [requestDeleteTodo, isDelete] = useRequestDeletetodo(refreshTodos);
+	const todos = useSelector(selectToDos);
+	const dispatch = useDispatch();
 
 	const onChangeTitle = (event) => {
 		event.preventDefault();
 		if (newTitle) {
-			requestEditTodo(id, { title: newTitle, completed: false });
+			dispatch(updateTitleToDoAsync(id, { title: newTitle, completed: false }));
 			setIsEditing(false);
 		}
+	};
+
+	const deleteToDo = (id) => {
+		dispatch(removeToDoAsync(id));
+	};
+
+	const completedToDo = (todos, id) => {
+		dispatch(completedToDoAsync(todos, id));
 	};
 
 	return (
@@ -54,15 +53,21 @@ export const ToDo = ({ id, title, completed }) => {
 
 			<div className={styles.buttons}>
 				<button
-					onClick={() => requestCompletedTodo(id)}
-					disabled={isUpdatingCompleted}
+					onClick={() => completedToDo(todos, id)}
+					// disabled={isUpdatingCompleted}
 				>
 					<img src="../../../img/completed-icon.png" />
 				</button>
-				<button onClick={() => setIsEditing(true)} disabled={isUpdatingTitle}>
+				<button
+					onClick={() => setIsEditing(true)}
+					// disabled={isUpdatingTitle}
+				>
 					<img src="../../../img/edit-icon.png" />
 				</button>
-				<button onClick={() => requestDeleteTodo(id)} disabled={isDelete}>
+				<button
+					onClick={() => deleteToDo(id)}
+					// disabled={isDelete}
+				>
 					<img src="../../../img/delete-icon.png" />
 				</button>
 			</div>

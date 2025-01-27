@@ -1,9 +1,8 @@
 import { useContext } from 'react';
 import styles from './searchform.module.css';
-import { FilteredTodosContext } from '../../context';
 
 export const SearchForm = () => {
-	const { searchValue, setSearchValue } = useContext(FilteredTodosContext);
+	const { searchValue, setSearchValue } = useContext();
 
 	return (
 		<>

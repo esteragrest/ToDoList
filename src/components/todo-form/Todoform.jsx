@@ -1,19 +1,17 @@
+import { useDispatch } from 'react-redux';
 import styles from './todoform.module.css';
-import { useContext, useState } from 'react';
-import { useRequestAddNewTodo } from '../../hooks';
-import { SortedTodosContext, TodosContext } from '../../context';
+import { useState } from 'react';
+import { addToDoAsync } from '../../actions';
 
 export const Todoform = () => {
 	const [todoValue, setTodoValue] = useState('');
-	const { refreshTodos } = useContext(TodosContext);
-	const { isSorted, setIsSorted } = useContext(SortedTodosContext);
-
-	const [requestAddNewTodo, isCreating] = useRequestAddNewTodo(refreshTodos);
+	// const { isSorted, setIsSorted } = useContext();
+	const dispatch = useDispatch();
 
 	const handleOnSubmit = (event) => {
 		event.preventDefault();
 		if (todoValue) {
-			requestAddNewTodo({ title: todoValue, completed: false });
+			dispatch(addToDoAsync({ title: todoValue, completed: false }));
 			setTodoValue('');
 		}
 	};
@@ -31,12 +29,15 @@ export const Todoform = () => {
 					placeholder="Заполнить список дел..."
 				/>
 				<div className={styles.buttonContainer}>
-					<button className={styles.newtodo} disabled={isCreating}>
+					<button
+						className={styles.newtodo}
+						// disabled={isCreating}
+					>
 						Записать
 					</button>
 					<button
-						className={isSorted ? styles.sortButtonOff : styles.sortButtonOn}
-						onClick={() => setIsSorted(!isSorted)}
+					// className={isSorted ? styles.sortButtonOff : styles.sortButtonOn}
+					// onClick={() => setIsSorted(!isSorted)}
 					>
 						Дела по алфавиту
 					</button>

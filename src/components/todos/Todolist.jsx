@@ -1,23 +1,24 @@
 import styles from './todolist.module.css';
-import { ToDo } from '../todo/ToDo';
+import { ToDo } from '../../components';
 import { useSelector } from 'react-redux';
-import { selectToDos } from '../../selectors';
+import { selectIsSorted, selectToDos } from '../../selectors';
+import { selectSearchValue } from '../../selectors/select-search-value';
 
 export const Todolist = () => {
 	const todos = useSelector(selectToDos);
-	// const { isSorted } = useContext();
-	// const { searchValue } = useContext();
+	const isSorted = useSelector(selectIsSorted);
+	const searchValue = useSelector(selectSearchValue);
 
-	// const sortedTodos = isSorted
-	// 	? [...todos].sort((a, b) => a.title.localeCompare(b.title))
-	// 	: todos;
+	const sortedTodos = isSorted
+		? [...todos].sort((a, b) => a.title.localeCompare(b.title))
+		: todos;
 
-	// const filteredTodos = sortedTodos.filter((todo) =>
-	// 	todo.title.toLowerCase().includes(searchValue),
-	// );
+	const filteredTodos = searchValue
+		? sortedTodos.filter((todo) => todo.title.toLowerCase().includes(searchValue))
+		: sortedTodos;
 	return (
 		<div className={styles.todos}>
-			{todos.map(({ id, title, completed }) => {
+			{filteredTodos.map(({ id, title, completed }) => {
 				return (
 					<div className={styles.todo} key={id}>
 						<ToDo id={id} title={title} completed={completed} />

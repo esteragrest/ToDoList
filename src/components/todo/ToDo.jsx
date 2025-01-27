@@ -52,22 +52,13 @@ export const ToDo = ({ id, title, completed }) => {
 			)}
 
 			<div className={styles.buttons}>
-				<button
-					onClick={() => completedToDo(todos, id)}
-					// disabled={isUpdatingCompleted}
-				>
+				<button onClick={() => completedToDo(todos, id)}>
 					<img src="../../../img/completed-icon.png" />
 				</button>
-				<button
-					onClick={() => setIsEditing(true)}
-					// disabled={isUpdatingTitle}
-				>
+				<button onClick={() => setIsEditing(true)}>
 					<img src="../../../img/edit-icon.png" />
 				</button>
-				<button
-					onClick={() => deleteToDo(id)}
-					// disabled={isDelete}
-				>
+				<button onClick={() => deleteToDo(id)}>
 					<img src="../../../img/delete-icon.png" />
 				</button>
 			</div>

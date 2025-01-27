@@ -1,8 +1,15 @@
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './searchform.module.css';
+import { selectSearchValue } from '../../selectors/select-search-value';
+import { searchValueAction } from '../../actions';
 
 export const SearchForm = () => {
-	const { searchValue, setSearchValue } = useContext();
+	const searchValue = useSelector(selectSearchValue);
+	const dispatch = useDispatch();
+
+	const setSearchValue = (value) => {
+		dispatch(searchValueAction(value));
+	};
 
 	return (
 		<>

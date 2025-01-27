@@ -1,11 +1,12 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './todoform.module.css';
 import { useState } from 'react';
-import { addToDoAsync } from '../../actions';
+import { addToDoAsync, isSortedAction } from '../../actions';
+import { selectIsSorted } from '../../selectors';
 
 export const Todoform = () => {
 	const [todoValue, setTodoValue] = useState('');
-	// const { isSorted, setIsSorted } = useContext();
+	const isSorted = useSelector(selectIsSorted);
 	const dispatch = useDispatch();
 
 	const handleOnSubmit = (event) => {
@@ -14,6 +15,10 @@ export const Todoform = () => {
 			dispatch(addToDoAsync({ title: todoValue, completed: false }));
 			setTodoValue('');
 		}
+	};
+
+	const sortAlphabetically = () => {
+		dispatch(isSortedAction(isSorted));
 	};
 
 	return (
@@ -29,15 +34,10 @@ export const Todoform = () => {
 					placeholder="Заполнить список дел..."
 				/>
 				<div className={styles.buttonContainer}>
+					<button className={styles.newtodo}>Записать</button>
 					<button
-						className={styles.newtodo}
-						// disabled={isCreating}
-					>
-						Записать
-					</button>
-					<button
-					// className={isSorted ? styles.sortButtonOff : styles.sortButtonOn}
-					// onClick={() => setIsSorted(!isSorted)}
+						className={isSorted ? styles.sortButtonOff : styles.sortButtonOn}
+						onClick={sortAlphabetically}
 					>
 						Дела по алфавиту
 					</button>

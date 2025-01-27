@@ -1,16 +1,13 @@
 import styles from './app.module.css';
 import { useEffect } from 'react';
-import { Todolist } from './components/todos/Todolist';
-import { Todoform } from './components/todo-form/Todoform';
-// import { SearchForm } from './components/search-form/Searchform';
-import { useDispatch } from 'react-redux';
+import { Todolist, Todoform, SearchForm } from './components';
+import { useDispatch, useSelector } from 'react-redux';
 import { readToDos } from './actions';
+import { selectIsLoading } from './selectors';
 
 export const App = () => {
-	// const [refreshTodosFlag, setRefreshTodosFlag] = useState(false);
 	const dispatch = useDispatch();
-	// const refreshTodos = () => setRefreshTodosFlag(!refreshTodosFlag);
-	const isLoading = false;
+	const isLoading = useSelector(selectIsLoading);
 
 	useEffect(() => {
 		dispatch(readToDos);
@@ -24,7 +21,7 @@ export const App = () => {
 				) : (
 					<>
 						<Todoform />
-						{/* <SearchForm /> */}
+						<SearchForm />
 						<Todolist />
 					</>
 				)}

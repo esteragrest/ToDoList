@@ -1,10 +1,9 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { thunk } from 'redux-thunk';
-import { toDoReducer, statusToDoReducer, optionsReducer } from './reducers';
+import { toDoReducer, optionsReducer } from './reducers';
 
 const reducer = combineReducers({
 	toDoState: toDoReducer,
-	statusToDoState: statusToDoReducer,
 	optionsState: optionsReducer,
 });
 

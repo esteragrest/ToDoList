@@ -2,8 +2,8 @@ import { useRequestGetTodos } from './hooks';
 import styles from './app.module.css';
 import { useState } from 'react';
 import { Todolist } from './components/todos/Todolist';
-import { Todoform } from './components/todoform/Todoform';
-import { SearchForm } from './components/searchform/Searchform';
+import { Todoform } from './components/todo-form/Todoform';
+import { SearchForm } from './components/search-form/Searchform';
 import { TodosContext, SortedTodosContext, FilteredTodosContext } from './context';
 
 export const App = () => {
